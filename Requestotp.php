@@ -12,19 +12,17 @@ if(!isset($_SESSION['username'])){
 	$dpname = $display['name'];
 	$dpsurname = $display['surname'];
 	$id4ac = $display['idcustomer'];
-	$queryaccount = mysql_query("SELECT * FROM accountinfo WHERE  idcustomer='$id4ac'");
-	$dp = mysql_fetch_array($queryaccount);
-	$otp = $dp['otp'];
-		
-  if (isset($_GET['New'])) {
-    $newotp = rand(111111,999999);
+	$newotp = rand(111111,999999);
 	$sqlc = "UPDATE accountinfo SET otp = '$newotp' WHERE  idcustomer='$id4ac'";
 	$retval = mysql_query( $sqlc, $connect );
 	if (! $retval ) 
 	{
     	die('Could not enter data to accountinfo: ' . mysql_error());
 	}
-  }
+	$queryaccount = mysql_query("SELECT * FROM accountinfo WHERE  idcustomer='$id4ac'");
+	$dp = mysql_fetch_array($queryaccount);
+	$otp = $dp['otp'];	
+   
 ?>
 
 
@@ -70,7 +68,7 @@ if(!isset($_SESSION['username'])){
 	 		<div class="row text-center" style="margin-top: 2vw;">
 	 			<div class="col-xs-2 col-xs-offset-1">
 	 			<h4>
-	 			<a href='Requestotp.php?New=true' class="submit-button" value="Refresh Page" onClick="window.location.reload()">Request New OTP</a>
+	 			<a class="submit-button" value="Refresh Page" onClick="window.location.reload()">Request New OTP</a>
 	 			</h4>
 	 			</div>
 	 		</div>
