@@ -3,7 +3,6 @@ session_start();
 if(!isset($_SESSION['username'])){
    header("Location:Login.html");
 }
-
 	$connect = mysql_connect("localhost","root","")  or die ("can't connect");
 	mysql_select_db("cesebank") or die ("can't find db");
 	$usdisplay = $_SESSION['username'];
@@ -22,14 +21,9 @@ if(!isset($_SESSION['username'])){
 	$queryaccount = mysql_query("SELECT * FROM accountinfo WHERE  idcustomer='$id4ac'");
 	$dp = mysql_fetch_array($queryaccount);
 	$otp = $dp['otp'];	
-   
 ?>
-
-
-
 <!DOCTYPE html>
 <html>
-<form action='transbank.php' method='POST'>
 <head>
 
 	<meta charset="utf-8">
