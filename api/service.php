@@ -71,5 +71,5 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		print_r("no have this customer account");
 	}
 }
-
+mysql_close($connect);	
 ?>

@@ -5,6 +5,7 @@ $(document).ready(function(){
 	$(".Finance-blog3").load("./Finance-blog3.html");
 	$(".Transfer-head").load("./Transfer-head.html");
 	$(".Operator-head").load("./Operator-head.html");
+	$(".Requestotp-head").load("./Requestotp-head.html");
 	$(".Operator-login-head").load("./Operator-login-head.html");
 	$(".Operator-create-head").load("./Operator-create-head.php");
 	$(".Operator-with-head").load("./Operator-with-head.html");

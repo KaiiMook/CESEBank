@@ -31,7 +31,6 @@ $amountt = $_POST['name1'];
 
 
 
-
 <?php
 if($bankk&&$accountt&&$amountt)
 {
@@ -109,3 +108,9 @@ else
 
 mysql_close($connect);
 ?>
+
+</div>
+</div>
+</div>
+</body>
+</html>
