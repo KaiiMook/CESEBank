@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>-CESE BANK-</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="css/style.css">
+
+</head>
+<body style="background: #fff url(img/op-bg.png) no-repeat fixed right bottom; background-size: contain;"">
+ 	<div class="container-fluid">
+ 		<div class="Operator-create-head"></div>
+	 	<div class="container">
+	 		<div class="row">
+ 				<!-- Login -->
+ 				<div class="col-xs-8 op-login-blog">
+ 					<div class="row" style="margin: 1vw 0 2vw 3vw;">
+ 						<h2>Confirm account</h2>
+ 					</div>
+                    <?php
+                    
+                        $connect = mysql_connect("localhost","root","")  or die ("can't connect");
+                        mysql_select_db("cesebank") or die ("can't find db");
+                        $queryid = mysql_query("SELECT * FROM customerinfo");
+                        $lastid = mysql_insert_id($queryid);
+                        echo $lastid;
+                    ?>
+ 					<div class="row">
+                        <div class="col-xs-3 col-xs-offset-1">
+                            <h4>COSTOMER TYPE</h4>
+                        </div>
+                        <div class="col-xs-4">
+                           <h4> Normal Account </h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-4 col-xs-offset-1">
+                            <h4>ACCOUNT NUMBER</h4>
+                        </div>
+                        <div class="col-xs-4">
+                           <h4>1305700176</h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-5" style="text-align: right;">
+                            <h4>CITIZEN ID./ COMPANY ID.</h4>
+                        </div>
+                        <div class="col-xs-4" name="citi">
+                            <h4> 1103702101575
+                            </h4>
+                        </div>
+                    </div> 
+ 					<div class="row">
+ 						<div class="col-xs-2  col-xs-offset-1" style="text-align: right;">
+ 							<h4>NAME</h4>
+ 						</div>
+ 						<div class="col-xs-3" name="name">
+ 							<h4> Jittinat
+ 							</h4>
+ 						</div>
+ 						<div class="col-xs-2" style="text-align: right;">
+ 							<h4>SURNAME</h4>
+ 						</div>
+ 						<div class="col-xs-4" name="surname">
+ 							<h4>Nartnorakij
+ 							</h4>
+ 						</div>
+ 					</div>					
+ 					<div class="row">
+ 						<div class="col-xs-2  col-xs-offset-1" style="text-align: right;">
+ 							<h4>ADDRESS</h4>
+ 						</div>
+ 						<div class="col-xs-3" name="addr">
+ 							<h4>KMITL
+ 							</h4>
+ 						</div>
+ 						<div class="col-xs-2" style="text-align: right;">
+ 							<h4>TEL</h4>
+ 						</div>
+ 						<div class="col-xs-4" name="tel">
+ 							<h4>0849240488
+ 							</h4>
+ 						</div>
+					</div>
+                    <div class="row">
+                        <div class="col-xs-offset-1 col-xs-10">
+                        <hr style="border-color: gray;">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-xs-offset-2">
+                            <h4>Username</h4>
+                        </div>
+                        <div class="col-xs-6" name="username">
+                            <h4>s7010176
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-2 col-xs-offset-2">
+                            <h4>Password</h4>
+                        </div>
+                        <div class="col-xs-6" type="password" name="password">
+                            <h4>XXXXX
+                            </h4>
+                        </div>
+                    </div>
+                    <div class="row text-center">
+                        <div class="col-xs-1 col-xs-offset-3">
+                        <h4>
+                        <button class="submit-button" type="submit" href="Operator-Create.html">RETURN</button>
+                        </h4>
+                        </div>
+                    </div>
+ 				</div>
+ 			</div>
+	 	</div>
+ 	</div>
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/bootstrap.min.js"></script>
+
+    <!-- Plugin JavaScript -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.3/jquery.easing.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+    <!-- My js -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+</body>
+</html>

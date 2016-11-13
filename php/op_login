@@ -1,0 +1,16 @@
+<?php
+
+$username = $_post['username'];
+$password =$_post['password'];
+
+if($username&&$password)
+{
+	$connect = mysql_connect("localhost","root","Bell0823216323") or die("couldn't connect!!");
+	mysql_select_db("cesebank") or die ("couldn't find database");
+
+}
+else
+	die("Plesse enter username or password or both.");
+
+
+?>

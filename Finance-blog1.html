@@ -1,0 +1,19 @@
+
+<div class="row fi-blog1">
+	<h2>WELCOME <span class="font-red">
+	<?php
+
+	$connect = mysql_connect("localhost","root","")  or die ("can't connect");
+	mysql_select_db("cesebank") or die ("can't find db");
+	$usdisplay = $_SESSION['username'];
+	$queryusdisplay = mysql_query("SELECT * FROM customerinfo WHERE  username='$usdisplay'");
+	$display = mysql_fetch_array($queryusdisplay);
+	$dpname = $display['name'];
+	echo $dpname;
+	?>
+
+	Mr.Krichspas Khumthanom</span></h2>
+	<h4>(You has logged in at last when 8:10 AM - 16<sup>th</sup>10 2016)</h4>
+	<hr/>
+	<h4>Account CESE-no. digital account is 922-2-67179-9</h4>
+</div>
