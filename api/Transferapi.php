@@ -8,7 +8,6 @@
   	$from_Account = $data->{'from_Account'};
 	$to_Account = $data->{'to_Account'};
 	$Amount = $data->{'Amount'};
-	$from_Bank = $data->{'from_Bank'};
 	$key = $data->{'key'};
   
 if ($_SERVER['REQUEST_METHOD'] == 'POST')
@@ -27,24 +26,49 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			$retval = mysql_query( $sqlk, $connect );
 			if (! $retval ) 
 			{
+				$data = array(
+				  "success" => fault ,
+				  "error_message"=> "Could not enter data to account"
+				);
+				$str_data = json_encode($data);
+				print_r($str_data);
             	die('Could not enter data to accountinfo: ' . mysql_error());
         	}
         	else
         	{	//add log
-        		$sacc = $from_Bank.$from_Account;
+        		$sacc = $from_Account;
         		$sqlk = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('OB',' ','TF','".$Amount."','".$to_Account."','".$sacc."','".$newbalancek."')";
         	}
         	$retval = mysql_query( $sqlk, $connect );
 			if (! $retval ) 
 			{
+				$data = array(
+				  "success" => fault ,
+				  "error_message"=> "Could not enter data to account"
+				);
+				$str_data = json_encode($data);
+				print_r($str_data);
             	die('Could not enter data to accountinfo: ' . mysql_error());
         	}
         	else
         	{
-        		print_r("Success");
-       
+				$data = array(
+				  "success" => true ,
+				  "error_message"=> "Don't care"
+				);
+				$str_data = json_encode($data);
+				print_r($str_data);
+			}
 		}
-	}
+		else
+		{
+			$data = array(
+				  "success" => fault ,
+				  "error_message"=> "no have account number"
+				);
+				$str_data = json_encode($data);
+				print_r($str_data);
+		}
 	}
 	else if($key == "01iTqwqgh7")
 	{
@@ -62,7 +86,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         	}
         	else
         	{	//add log
-        		$saccn = $from_Bank.$from_Account;
+        		$saccn = $from_Account;
         		$sqln = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('OB',' ','TF','".$Amount."','".$to_Account."','".$saccn."','".$newbalancen."')";
         	}
         	$retval = mysql_query( $sqln, $connect );
@@ -72,13 +96,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         	}
         	else
         	{
-        		print_r("Success");
-        
+        		$data = array(
+				  "success" => fault ,
+				  "error_message"=> "no have account number"
+				);
+				$str_data = json_encode($data);
+				print_r($str_data);
 		}		
 	}
+		else
+		{
+			$data = array(
+				  "success" => true ,
+				  "error_message"=> "don't care"
+				);
+				$str_data = json_encode($data);
+				print_r($str_data);
+		}
 	}
-	else 
-		echo "not cooperate bank";
+	else
+	{
+		$data = array(
+		  "success" => fault ,
+		  "error_message"=> "not coorperate bank"
+		);
+		$str_data = json_encode($data);
+		print_r($str_data);
+	}
 }
 	mysql_close($connect);	
 ?>

@@ -2,53 +2,275 @@
 session_start();
 $bankk = $_POST['bank'];
 $accountt = $_POST['name'];
-$amountt = $_POST['name1'];	 
+$amountt = $_POST['name1'];
+$connect = mysql_connect("localhost","root","")  or die ("can't connect");
+mysql_select_db("cesebank") or die ("can't find db");
+function sendPostData($url, $post){
+  $ch = curl_init($url);
+  curl_setopt($ch, CURLOPT_POST, true);
+  curl_setopt($ch, CURLOPT_POSTFIELDS,$post);
+  curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+  curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");  
+  curl_setopt($ch, CURLOPT_FOLLOWLOCATION, 1);
+  $result = curl_exec($ch);
+  curl_close($ch);  // Seems like good practice
+  return $result;
+}
 if($bankk&&$accountt&&$amountt)
 {
-	$connect = mysql_connect("localhost","root","")  or die ("can't connect");
-	mysql_select_db("cesebank") or die ("can't find db");
-	//destination
-	$query = mysql_query("SELECT idcustomer,balance FROM accountinfo WHERE idaccounwitpf='$accountt' ");
-	$r = mysql_fetch_array($query);
-	$n = $r['idcustomer'];
-	//$query1 = mysql_query("SELECT idcustomer,citizenidcompanyid FROM customerinfo WHERE idcustomer='$n' AND citizenidcompanyid = '$ctz' ");
-	//$t = mysql_fetch_array($query1);
-	//source
-	$op = $_SESSION['username'];
-	$query2 = mysql_query("SELECT idcustomer FROM customerinfo WHERE  username='$op'");
-	$q2 = mysql_fetch_array($query2);
-	$qq2 = $q2['idcustomer'];
-	$query3 = mysql_query("SELECT * FROM accountinfo WHERE idcustomer='$qq2'");
-	$bh = mysql_fetch_array($query3);
-	$querye = mysql_query("SELECT  * FROM accountinfo WHERE  idaccounwitpf='$accountt'");
-	$dpn = mysql_fetch_array($querye);
-	$idacc = $dpn['idcustomer'];
-	$bywho = $bh['idcustomer'];
-	$byacc = $bh['idaccounwitpf'];
-	//echo $t['idcustomer'].$t['citizenidcompanyid'];
-	$numrows = mysql_num_rows($query);
-	if($numrows == 1 && $bankk == '1' ){
+	if($bankk == "1"){
+		
+		//destination
+		$query = mysql_query("SELECT idcustomer,balance FROM accountinfo WHERE idaccounwitpf='$accountt' ");
+		$r = mysql_fetch_array($query);
+		$n = $r['idcustomer'];
+		//source
+		$op = $_SESSION['username'];
+		$query2 = mysql_query("SELECT idcustomer FROM customerinfo WHERE  username='$op'");
+		$q2 = mysql_fetch_array($query2);
+		$qq2 = $q2['idcustomer'];
+		$query3 = mysql_query("SELECT * FROM accountinfo WHERE idcustomer='$qq2'");
+		$bh = mysql_fetch_array($query3);
+		$querye = mysql_query("SELECT  * FROM accountinfo WHERE  idaccounwitpf='$accountt'");
+		$dpn = mysql_fetch_array($querye);
+		$idacc = $dpn['idcustomer'];
+		$bywho = $bh['idcustomer'];
+		$byacc = $bh['idaccounwitpf'];
+		$numrows = mysql_num_rows($query);
+		if($numrows == 1 && $bankk == '1' ){
+			$newbalance = $r['balance'] + $amountt ;
+			$newbalances = $bh['balance'] - $amountt; 
+			//echo $newbalance;
+			$sql = "UPDATE accountinfo SET balance='$newbalance' WHERE idcustomer='$n'";
+			$retval = mysql_query( $sql, $connect );
+			$deposittor = $bh['idaccounwitpf'];
+			$query4 = mysql_query("SELECT  * FROM customerinfo WHERE  idcustomer='$idacc'");
+			$dpn1 = mysql_fetch_array($query4);
+			$namedp = $dpn1['name'];
+			$surnamedp = $dpn1['surname'];
+			if (! $retval ) 
+			{
+	            die('Could not enter data to accountinfo: ' . mysql_error());
+	        }
 
-		
-		$newbalance = $r['balance'] + $amountt ;
-		$newbalances = $bh['balance'] - $amountt; 
-		//echo $newbalance;
-		$sql = "UPDATE accountinfo SET balance='$newbalance' WHERE idcustomer='$n'";
-		$retval = mysql_query( $sql, $connect );
-		$deposittor = $bh['idaccounwitpf'];
-		$query4 = mysql_query("SELECT  * FROM customerinfo WHERE  idcustomer='$idacc'");
-		$dpn1 = mysql_fetch_array($query4);
-		$namedp = $dpn1['name'];
-		$surnamedp = $dpn1['surname'];
-		
-		
+			$sql = "UPDATE accountinfo SET balance='$newbalances' WHERE idcustomer='$bywho'";
+			$retval = mysql_query( $sql, $connect );
 		if (! $retval ) 
 		{
             die('Could not enter data to accountinfo: ' . mysql_error());
         }
+        		
+    	else
 
-		$sql = "UPDATE accountinfo SET balance='$newbalances' WHERE idcustomer='$bywho'";
-		$retval = mysql_query( $sql, $connect );
+    		$print =  "<h4> 
+    				---- Successfully transfer ---- 
+    				</h4>
+    				<br/><br/>
+    			 	<div class='col-xs-6' style='text-align:right;'>
+    			 	<h4>
+    			 	Transfer from account : 
+    			 	<br/><br/>Transfer to account : 
+    			 	<br/><br/>Name : 
+    			 	<br/><br/> Amount : 
+    			 	<br/><br/> Total money remain : 
+    			 	</h4>
+    			 	</div>
+    			 	<div class='col-xs-6' style='text-align:left;'>
+    			 	<h4>"
+    			 	.$byacc.
+    			 	"<br/><br/>"
+    			 	.$accountt.
+    			 	"<br/><br/>"
+    			 	.$namedp."  ".$surnamedp.
+    			 	"<br/><br/>"
+    			 	.$amountt .
+    			 	"<br/><br/>"
+    			 	.$newbalances.
+    			 	"<br/><br/> 
+    			 	<a style='color:black;' href='Transfer.php'> 
+    			 		click to return
+    			 	</a></h4>
+    			 	</div> ";
+		$sql = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('CM','".$bywho."','TF','".$amountt."','".$accountt."','".$deposittor."','".$newbalances."'),('CM','".$bywho."','DP','".$amountt."','".$accountt."','".$deposittor."','".$newbalance."')";	
+				$retval = mysql_query( $sql, $connect );
+				if(! $retval ) 
+				{
+		            die('Could not enter data: ' . mysql_error());
+		        }
+		        
+			}
+			else
+			{
+				if($bankk != 1)
+					echo "can't transfer to other bank right now.";
+				else
+					echo "that account no. doesn't exist.";
+			}
+		}
+		elseif ($bankk=="2") {
+		
+		//source
+		$op = $_SESSION['username'];
+		$query2 = mysql_query("SELECT idcustomer FROM customerinfo WHERE  username='$op'");
+		$q2 = mysql_fetch_array($query2);
+		$qq2 = $q2['idcustomer'];
+		$query3 = mysql_query("SELECT * FROM accountinfo WHERE idcustomer='$qq2'");
+		$bh = mysql_fetch_array($query3);
+		$bywho = $bh['idcustomer'];
+		$byacc = $bh['idaccounwitpf'];
+		$data = array(
+		  "from_Account"=> $byacc,
+		  "to_Account"=> $accountt,
+		  "Amount"=> $amountt,
+		  //"key"=> "test if not kong&non bank"
+		  "key" => "kaiimook1111"
+		);
+
+		$url_send ="http://bank.route.in.th:9999/api/transfer";
+		// $str_data = http_build_query($data);
+		$str_data = json_encode($data);
+		$result = sendPostData($url_send, $str_data);
+	  	$res = json_decode($result);
+	  	$success = $res->{'success'};
+		$message_error = $res->{'message_error'};
+
+		if($success == true ){
+			$newbalances = $bh['balance'] - $amountt; 
+			$sql = "UPDATE accountinfo SET balance='$newbalances' WHERE idcustomer='$bywho'";
+			$retval = mysql_query( $sql, $connect );
+		if (! $retval ) 
+		{
+            die('Could not enter data to accountinfo: ' . mysql_error());
+        }
+        		
+    	else
+
+    		$print =  "<h4> 
+    				---- Successfully transfer ---- 
+    				</h4>
+    				<br/><br/>
+    			 	<div class='col-xs-6' style='text-align:right;'>
+    			 	<h4>
+    			 	Transfer from account : 
+    			 	<br/><br/>Transfer to account : 
+    			 	<br/><br/>Name : 
+    			 	<br/><br/> Amount : 
+    			 	<br/><br/> Total money remain : 
+    			 	</h4>
+    			 	</div>
+    			 	<div class='col-xs-6' style='text-align:left;'>
+    			 	<h4>"
+    			 	.$byacc.
+    			 	"<br/><br/>"
+    			 	.$accountt.
+    			 	"<br/><br/>
+    			 	Other Bank
+    			 	<br/><br/>"
+    			 	.$amountt .
+    			 	"<br/><br/>"
+    			 	.$newbalances.
+    			 	"<br/><br/> 
+    			 	<a style='color:black;' href='Transfer.php'> 
+    			 		click to return
+    			 	</a></h4>
+    			 	</div> ";
+			$sql = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('CM','".$bywho."','TF','".$amountt."','".$accountt."','".$deposittor."','".$newbalances."'),('CM','".$bywho."','DP','".$amountt."','".$accountt."','".$deposittor."','".$newbalance."')";	
+				$retval = mysql_query( $sql, $connect );
+				if(! $retval ) 
+				{
+		            die('Could not enter data: ' . mysql_error());
+		        }
+		        
+			}
+			else
+			{
+				print_r($message_error);	
+			}
+		}
+		elseif ($bankk=="3") {
+		
+		//source
+		$op = $_SESSION['username'];
+		$query2 = mysql_query("SELECT idcustomer FROM customerinfo WHERE  username='$op'");
+		$q2 = mysql_fetch_array($query2);
+		$qq2 = $q2['idcustomer'];
+		$query3 = mysql_query("SELECT * FROM accountinfo WHERE idcustomer='$qq2'");
+		$bh = mysql_fetch_array($query3);
+		$bywho = $bh['idcustomer'];
+		$byacc = $bh['idaccounwitpf'];
+		$data = array(
+		  "from_Account"=> $byacc,
+		  "to_Account"=> $accountt,
+		  "Amount"=> $amountt,
+		  //"key"=> "test if not kong&non bank"
+		  "key" => "746H32ABMN"
+		);
+
+		$url_send ="http://glacial-gorge-51031.herokuapp.com/api/transfer";
+		// $str_data = http_build_query($data);
+		$str_data = json_encode($data);
+		$result = sendPostData($url_send, $str_data);
+	  	$res = json_decode($result);
+	  	$success = $res->{'success'};
+		$message_error = $res->{'message_error'};
+
+		if($success == true ){
+			$newbalances = $bh['balance'] - $amountt; 
+			$sql = "UPDATE accountinfo SET balance='$newbalances' WHERE idcustomer='$bywho'";
+			$retval = mysql_query( $sql, $connect );
+		if (! $retval ) 
+		{
+            die('Could not enter data to accountinfo: ' . mysql_error());
+        }
+        		
+    	else
+
+    		$print =  "<h4> 
+    				---- Successfully transfer ---- 
+    				</h4>
+    				<br/><br/>
+    			 	<div class='col-xs-6' style='text-align:right;'>
+    			 	<h4>
+    			 	Transfer from account : 
+    			 	<br/><br/>Transfer to account : 
+    			 	<br/><br/>Name : 
+    			 	<br/><br/> Amount : 
+    			 	<br/><br/> Total money remain : 
+    			 	</h4>
+    			 	</div>
+    			 	<div class='col-xs-6' style='text-align:left;'>
+    			 	<h4>"
+    			 	.$byacc.
+    			 	"<br/><br/>"
+    			 	.$accountt.
+    			 	"<br/><br/>
+    			 	Other Bank
+    			 	<br/><br/>"
+    			 	.$amountt .
+    			 	"<br/><br/>"
+    			 	.$newbalances.
+    			 	"<br/><br/> 
+    			 	<a style='color:black;' href='Transfer.php'> 
+    			 		click to return
+    			 	</a></h4>
+    			 	</div> ";
+			$sql = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('CM','".$bywho."','TF','".$amountt."','".$accountt."','".$deposittor."','".$newbalances."'),('CM','".$bywho."','DP','".$amountt."','".$accountt."','".$deposittor."','".$newbalance."')";	
+				$retval = mysql_query( $sql, $connect );
+				if(! $retval ) 
+				{
+		            die('Could not enter data: ' . mysql_error());
+		        }
+		        
+			}
+			else
+			{
+				print_r($message_error);	
+			}
+		}
+	}
+		else
+			die ("please enter all information.");
+
 ?>
 
 <!DOCTYPE html>
@@ -72,58 +294,15 @@ if($bankk&&$accountt&&$amountt)
  		<div class="Transfer-head"></div>
 	 	<div class="container-fluid trans-blog" style="padding-bottom: 4vw;">
 	 		<div class="row" style="margin-left: 2vw;">
+	 		<br/>
 	 			<h2>Transcript</h2>
 	 		</div>
 	 		<div class="row">
+	 		<div class="col-xs-5 text-center col-xs-offset-2">
 	 		<?php
-		if (! $retval ) 
-		{
-            die('Could not enter data to accountinfo: ' . mysql_error());
-        }
-        		
-    	else
-
-    		echo "<h4>---- Successfully transfer ----<br/> From account".$byacc."<br/>Transfer to account : ".$accountt."<br/>Name : ".$namedp."  ".$surnamedp." <br/> Amount : ".$amountt ."<br/> Total money remain : ".$newbalances."<br/> <a class="submit-button" href='Transfer.php'> click to return</a></h4>" ;
-    	//echo $_SESSION['username'];
-    	?>
-	 			<div class="col-xs-3 col-xs-offset-2">
-	 				<h4>Bank destination</h4>
-	 			</div>
-	 			<div class="col-xs-4">
-	 				<h4>
-	 				<select name="bank" id="bank" onchange="" size="1">
-						<option value="1"> CESE BANK </option>
-					    <option value="2"> NONTAWAT BANK </option>
-					    <option value="3"> ATTHASIT BANK </option>
-					</select>
-					</h4>
-	 			</div>
- 			</div>
-	 		<div class="row">
-	 			<div class="col-xs-3 col-xs-offset-2">
-	 				<h4>Account NO.</h4>
-	 			</div>
-	 			<div class="col-xs-4">
-	 				<h4><input type="text" name="name">
-	 				</h4>
-	 			</div>
-	 		</div>
-	 		<div class="row">
-	 			<div class="col-xs-3 col-xs-offset-2">
-	 				<h4>Amount</h4>
-	 			</div>
-	 			<div class="col-xs-4">
-	 				<h4><input type="text" name="name1">
-	 				</h4>
-	 			</div>
-	 		</div>
-	 		<div class="row text-center" style="margin-top: 2vw;">
-	 			<div class="col-xs-1 col-xs-offset-3">
-	 			<h4>
-	 			<button class="submit-button" type="submit">Transfer</button>
-	 			</h4>
-	 			</div>
-	 		</div>
+	 		echo $print;
+	 		?>
+	 		</div>	
 	 	</div>
  	</div>
     <!-- Bootstrap Core JavaScript -->
@@ -139,26 +318,5 @@ if($bankk&&$accountt&&$amountt)
 </form>
 </html>
 <?php
-$sql = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('CM','".$bywho."','TF','".$amountt."','".$accountt."','".$deposittor."','".$newbalances."'),('CM','".$bywho."','DP','".$amountt."','".$accountt."','".$deposittor."','".$newbalance."')";	
-		$retval = mysql_query( $sql, $connect );
-		if(! $retval ) 
-		{
-            die('Could not enter data: ' . mysql_error());
-        }
-        
-	}
-	else
-	{
-		if($bankk != 1)
-			echo "can't transfer to other bank right now.";
-		else
-			echo "that account no. doesn't exist.";
-	}
-		
-	
-}
-else
-	die ("plaese enter all information.");
-
-mysql_close($connect);
+			mysql_close($connect);
 ?>

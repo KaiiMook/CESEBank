@@ -9,14 +9,13 @@
 // Kong = 4R02vZ4c69
 $data = array(
   "from_Account"=> "1234567890",
-  "to_Account"=> "1327100002",
-  "Amount"=> 1000.00,
-  "from_Bank"=> "bell_Bank",
+  "to_Account"=> "5495100020",
+  "Amount"=> 100000.00,
   //"key"=> "test if not kong&non bank"
-  "key" => "4R02vZ4c69"
+  "key" => "746H32ABMN"
 );
 
-$url_send ="http://localhost/ceseb/api/Transferapi.php";
+$url_send ="http://glacial-gorge-51031.herokuapp.com/api/transfer";
 // $str_data = http_build_query($data);
 $str_data = json_encode($data);
 

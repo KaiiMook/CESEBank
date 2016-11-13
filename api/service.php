@@ -34,41 +34,78 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				$retval = mysql_query( $sqlc, $connect );
 				if (! $retval ) 
 				{
-		        	die('Could not enter data to accountinfo: ' . mysql_error());
+					$data = array(
+					  "status"=> "failed",
+					  "error_message"=> "Could not enter data to account"
+					);
+					$str_data = json_encode($data);
+					print_r($str_data);
 		    	}
 				$sqls = "UPDATE accountinfo SET balance='$newbalances' WHERE idaccounwitpf='$shop_Account'";
 				$retval = mysql_query( $sqls, $connect );
 				if (! $retval ) 
 				{
-		        	die('Could not enter data to accountinfo: ' . mysql_error());
+
+					$data = array(
+					  "status"=> "failed",
+					  "error_message"=> "Could not enter data to account"
+					);
+					$str_data = json_encode($data);
+					print_r($str_data);
 		    	}
 		    	else
 		    	{	//add log
-		    		$sql = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('SHOP','','TF','".$Amount."','".$shop_Account."','".$cus_Account."','".$newbalancec."'),('SHOP','','DP','".$Amount."','".$cus_Account."','".$shop_Account."','".$newbalances."')";	
+		    		$sql = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('SP','','TF','".$Amount."','".$shop_Account."','".$cus_Account."','".$newbalancec."'),('SP','','DP','".$Amount."','".$cus_Account."','".$shop_Account."','".$newbalances."')";	
 		    	}
 		    	$retval = mysql_query( $sql, $connect );
 				if (! $retval ) 
 				{
-		        	die('Could not enter data to accountinfo: ' . mysql_error());
+					$data = array(
+					  "status"=> "failed",
+					  "error_message"=> "Could not enter data to account"
+					);
+					$str_data = json_encode($data);
+					print_r($str_data);
 		    	}
 		    	else
 		    	{
-		    		print_r("Success");
+					$data = array(
+					  "status"=> "success",
+					  "error_message"=> "Could not enter data to account"
+					);
+					$str_data = json_encode($data);
+					print_r($str_data);
+			    		print_r("Success");
 		    	}
 		    }
 		    else
 		    {
-		    	print_r("Wrong otp");
+				$data = array(
+				  "status"=> "failed",
+				  "error_message"=> "Wrong otp"
+				);
+				$str_data = json_encode($data);
+				print_r($str_data);
 		    }
 		}
 		else
 		{
-			print_r("no have this shop account");
+				$data = array(
+				  "status"=> "failed",
+				  "error_message"=> "no have this shop account"
+				);
+				$str_data = json_encode($data);
+				print_r($str_data);
 		}
 	}
 	else
 	{
-		print_r("no have this customer account");
+				$data = array(
+				  "status"=> "failed",
+				  "error_message"=> "no have this customer account"
+				);
+				$str_data = json_encode($data);
+				print_r($str_data);\
 	}
 }
 mysql_close($connect);	
