@@ -9,7 +9,7 @@
 // Kong = 4R02vZ4c69
 $data = array(
   "from_Account"=> "1234567890",
-  "to_Account"=> "1327100003",
+  "to_Account"=> "1327000003",
   "Amount"=> 1000.00,
   //"key"=> "test if not kong&non bank"
   "key" => "4R02vZ4c69"
@@ -38,10 +38,10 @@ $success = $res->{'status'};
 $error_message = $res->{'error_message'};
 
 if($success == true){
-  echo($error_message);
+  echo "OMG";
 }
 else
 {
-  echo "OMG";
+  echo($error_message);
 }
 ?>

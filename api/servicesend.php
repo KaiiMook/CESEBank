@@ -12,10 +12,10 @@ $data = array(
   "shop_Account"=> "1327000003",
   "cus_Account"=> "1327100002",
   "Amount"=> 450.00,
-  "otp"=> "958628"
+  "otp"=> 958628
 );
 
-$url_send ="http://localhost/ceseb/api/service.php";
+$url_send ="http://localhost/cesebank/api/service.php";
 // $str_data = http_build_query($data);
 $str_data = json_encode($data);
 
@@ -31,9 +31,17 @@ function sendPostData($url, $post){
   return $result;
 }
 
-$response =  sendPostData($url_send, $str_data);
-$success = $response->{'success'};
-$error_message = $response->{'error_message'};
-echo $success.$error_message;
+$result = sendPostData($url_send, $str_data);
 
+$res = json_decode($result);
+$success = $res->{'success'};
+$error_message = $res->{'error_message'};
+
+if($success == true){
+  echo "OMG";
+}
+else
+{
+  echo $error_message;
+}
 ?>

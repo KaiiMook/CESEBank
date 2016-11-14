@@ -75,7 +75,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 					);
 					$str_data = json_encode($data);
 					print_r($str_data);
-			    		print_r("Success");
 		    	}
 		    }
 		    else
@@ -105,7 +104,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				  "error_message"=> "no have this customer account"
 				);
 				$str_data = json_encode($data);
-				print_r($str_data);\
+				print_r($str_data);
 	}
 }
 mysql_close($connect);	
