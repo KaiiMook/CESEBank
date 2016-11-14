@@ -35,7 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				if (! $retval ) 
 				{
 					$data = array(
-					  "status"=> "failed",
+					  "success"=> false,
 					  "error_message"=> "Could not enter data to account"
 					);
 					$str_data = json_encode($data);
@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				{
 
 					$data = array(
-					  "status"=> "failed",
+					  "success"=> false,
 					  "error_message"=> "Could not enter data to account"
 					);
 					$str_data = json_encode($data);
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 				if (! $retval ) 
 				{
 					$data = array(
-					  "status"=> "failed",
+					  "success"=> false,
 					  "error_message"=> "Could not enter data to account"
 					);
 					$str_data = json_encode($data);
@@ -70,7 +70,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		    	else
 		    	{
 					$data = array(
-					  "status"=> "success",
+					  "success"=> true,
 					  "error_message"=> "Could not enter data to account"
 					);
 					$str_data = json_encode($data);
@@ -81,7 +81,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		    else
 		    {
 				$data = array(
-				  "status"=> "failed",
+				  "success"=> false,
 				  "error_message"=> "Wrong otp"
 				);
 				$str_data = json_encode($data);
@@ -91,7 +91,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		else
 		{
 				$data = array(
-				  "status"=> "failed",
+				  "success"=> false,
 				  "error_message"=> "no have this shop account"
 				);
 				$str_data = json_encode($data);
@@ -101,7 +101,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	else
 	{
 				$data = array(
-				  "status"=> "failed",
+				  "success"=> false,
 				  "error_message"=> "no have this customer account"
 				);
 				$str_data = json_encode($data);

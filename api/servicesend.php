@@ -12,7 +12,7 @@ $data = array(
   "shop_Account"=> "1327000003",
   "cus_Account"=> "1327100002",
   "Amount"=> 450.00,
-  "otp"=> "1072649"
+  "otp"=> "958628"
 );
 
 $url_send ="http://localhost/ceseb/api/service.php";
@@ -31,6 +31,9 @@ function sendPostData($url, $post){
   return $result;
 }
 
-echo " " . sendPostData($url_send, $str_data);
+$response =  sendPostData($url_send, $str_data);
+$success = $response->{'success'};
+$error_message = $response->{'error_message'};
+echo $success.$error_message;
 
 ?>

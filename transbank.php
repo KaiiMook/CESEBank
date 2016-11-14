@@ -91,7 +91,7 @@ if($bankk&&$accountt&&$amountt)
     			 		click to return
     			 	</a></h4>
     			 	</div> ";
-		$sql = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('CM','".$bywho."','TF','".$amountt."','".$accountt."','".$deposittor."','".$newbalances."'),('CM','".$bywho."','DP','".$amountt."','".$accountt."','".$deposittor."','".$newbalance."')";	
+		$sql = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('CM','".$bywho."','TF','".$amountt."','".$accountt."','".$deposittor."','".$newbalances."')";	
 				$retval = mysql_query( $sql, $connect );
 				if(! $retval ) 
 				{
@@ -99,16 +99,8 @@ if($bankk&&$accountt&&$amountt)
 		        }
 		        
 			}
-			else
-			{
-				if($bankk != 1)
-					echo "can't transfer to other bank right now.";
-				else
-					echo "that account no. doesn't exist.";
-			}
 		}
 		elseif ($bankk=="2") {
-		
 		//source
 		$op = $_SESSION['username'];
 		$query2 = mysql_query("SELECT idcustomer FROM customerinfo WHERE  username='$op'");
@@ -118,6 +110,7 @@ if($bankk&&$accountt&&$amountt)
 		$bh = mysql_fetch_array($query3);
 		$bywho = $bh['idcustomer'];
 		$byacc = $bh['idaccounwitpf'];
+		$deposittor = $bh['idaccounwitpf'];
 		$data = array(
 		  "from_Account"=> $byacc,
 		  "to_Account"=> $accountt,
@@ -125,7 +118,6 @@ if($bankk&&$accountt&&$amountt)
 		  //"key"=> "test if not kong&non bank"
 		  "key" => "kaiimook1111"
 		);
-
 		$url_send ="http://bank.route.in.th:9999/api/transfer";
 		// $str_data = http_build_query($data);
 		$str_data = json_encode($data);
@@ -198,6 +190,7 @@ if($bankk&&$accountt&&$amountt)
 		$bh = mysql_fetch_array($query3);
 		$bywho = $bh['idcustomer'];
 		$byacc = $bh['idaccounwitpf'];
+		$deposittor = $bh['idaccounwitpf'];
 		$data = array(
 		  "from_Account"=> $byacc,
 		  "to_Account"=> $accountt,
@@ -254,7 +247,7 @@ if($bankk&&$accountt&&$amountt)
     			 		click to return
     			 	</a></h4>
     			 	</div> ";
-			$sql = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('CM','".$bywho."','TF','".$amountt."','".$accountt."','".$deposittor."','".$newbalances."'),('CM','".$bywho."','DP','".$amountt."','".$accountt."','".$deposittor."','".$newbalance."')";	
+			$sql = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('CM','".$bywho."','TF','".$amountt."','".$accountt."','".$deposittor."','".$newbalances."')";	
 				$retval = mysql_query( $sql, $connect );
 				if(! $retval ) 
 				{
