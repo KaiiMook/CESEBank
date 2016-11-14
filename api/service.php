@@ -26,7 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			if($otp == $findblc['otp'])
 			{
 				$balancec = $findblc['balance'];
-				if($balancec > $amountt){
+				if($balancec > $Amount){
 					$balances = $findbls['balance'];
 					$newbalancec = $balancec - $Amount;
 					$newbalances = $balances + $Amount;

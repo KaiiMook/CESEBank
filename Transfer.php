@@ -40,8 +40,8 @@ if(!isset($_SESSION['username'])){
 	 				<h4>
 	 				<select name="bank" id="bank" onchange="" size="1">
 						<option value="1"> CESE BANK </option>
-					    <option value="2"> NONTAWAT BANK </option>
-					    <option value="3"> ATTHASIT BANK </option>
+					    <option value="2"> The Real BANK </option>
+					    <option value="3"> KMITL BANK </option>
 					</select>
 					</h4>
 	 			</div>
