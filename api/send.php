@@ -9,13 +9,13 @@
 // Kong = 4R02vZ4c69
 $data = array(
   "from_Account"=> "1234567890",
-  "to_Account"=> "5495100020",
-  "Amount"=> 100000.00,
+  "to_Account"=> "1327100003",
+  "Amount"=> 1000.00,
   //"key"=> "test if not kong&non bank"
-  "key" => "746H32ABMN"
+  "key" => "4R02vZ4c69"
 );
 
-$url_send ="http://glacial-gorge-51031.herokuapp.com/api/transfer";
+$url_send ="http://localhost/cesebank/api/Transferapi.php";
 // $str_data = http_build_query($data);
 $str_data = json_encode($data);
 
@@ -31,6 +31,17 @@ function sendPostData($url, $post){
   return $result;
 }
 
-echo " " . sendPostData($url_send, $str_data);
+$result = sendPostData($url_send, $str_data);
 
+$res = json_decode($result);
+$success = $res->{'status'};
+$error_message = $res->{'error_message'};
+
+if($success == true){
+  echo($error_message);
+}
+else
+{
+  echo "OMG";
+}
 ?>

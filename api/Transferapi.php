@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			if (! $retval ) 
 			{
 				$data = array(
-				  "success" => fault ,
+				  "status" => false ,
 				  "error_message"=> "Could not enter data to account"
 				);
 				$str_data = json_encode($data);
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			if (! $retval ) 
 			{
 				$data = array(
-				  "success" => fault ,
+				  "status" => false ,
 				  "error_message"=> "Could not enter data to account"
 				);
 				$str_data = json_encode($data);
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         	else
         	{
 				$data = array(
-				  "success" => true ,
+				  "status" => true ,
 				  "error_message"=> "Don't care"
 				);
 				$str_data = json_encode($data);
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		else
 		{
 			$data = array(
-				  "success" => fault ,
+				  "status" => false ,
 				  "error_message"=> "no have account number"
 				);
 				$str_data = json_encode($data);
@@ -97,7 +97,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         	else
         	{
         		$data = array(
-				  "success" => fault ,
+				  "success" => false ,
 				  "error_message"=> "no have account number"
 				);
 				$str_data = json_encode($data);
@@ -117,7 +117,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 	else
 	{
 		$data = array(
-		  "success" => fault ,
+		  "success" => false ,
 		  "error_message"=> "not coorperate bank"
 		);
 		$str_data = json_encode($data);

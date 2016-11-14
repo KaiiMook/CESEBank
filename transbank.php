@@ -121,7 +121,7 @@ if($bankk&&$accountt&&$amountt)
 		$data = array(
 		  "from_Account"=> $byacc,
 		  "to_Account"=> $accountt,
-		  "Amount"=> $amountt,
+		  "Amount"=> (float)$amountt,
 		  //"key"=> "test if not kong&non bank"
 		  "key" => "kaiimook1111"
 		);
@@ -130,9 +130,9 @@ if($bankk&&$accountt&&$amountt)
 		// $str_data = http_build_query($data);
 		$str_data = json_encode($data);
 		$result = sendPostData($url_send, $str_data);
-	  	$res = json_decode($result);
-	  	$success = $res->{'success'};
-		$message_error = $res->{'message_error'};
+	  	$result = json_decode($result);
+	  	$success = $result->{'success'};
+		$error_message = $result->{'error_message'};
 
 		if($success == true ){
 			$newbalances = $bh['balance'] - $amountt; 
@@ -184,7 +184,7 @@ if($bankk&&$accountt&&$amountt)
 			}
 			else
 			{
-				print_r($message_error);	
+				print_r($error_message);	
 			}
 		}
 		elseif ($bankk=="3") {
@@ -201,7 +201,7 @@ if($bankk&&$accountt&&$amountt)
 		$data = array(
 		  "from_Account"=> $byacc,
 		  "to_Account"=> $accountt,
-		  "Amount"=> $amountt,
+		  "Amount"=> (float)$amountt,
 		  //"key"=> "test if not kong&non bank"
 		  "key" => "746H32ABMN"
 		);
@@ -210,9 +210,9 @@ if($bankk&&$accountt&&$amountt)
 		// $str_data = http_build_query($data);
 		$str_data = json_encode($data);
 		$result = sendPostData($url_send, $str_data);
-	  	$res = json_decode($result);
-	  	$success = $res->{'success'};
-		$message_error = $res->{'message_error'};
+	  	$result = json_decode($result);
+	  	$success = $result->{'status'};
+		$error_message = $result->{'error_message'};
 
 		if($success == true ){
 			$newbalances = $bh['balance'] - $amountt; 
@@ -264,7 +264,7 @@ if($bankk&&$accountt&&$amountt)
 			}
 			else
 			{
-				print_r($message_error);	
+				print_r($error_message);	
 			}
 		}
 	}
