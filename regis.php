@@ -92,27 +92,13 @@ $ctzcpnid = $_POST['citi'];
                                    die('Could not enter data to accountinfo: ' . mysql_error());
                                 }
 						        //echo "Entered data successfully <a href='Operator-Create.php'> click </a> to return";
-
-						        
-						        
 							}
-
-							
-								
-
 						}
 						else
-							die("that user already have an account.");
-
-							
-							
+							die("that user already have an account.");							
 					}
 					else
 							die (" plaese enter all information.");
-
-
-
-
  				?>
  				<div class="col-xs-8 op-login-blog">
  					<div class="row" style="margin: 1vw 0 2vw 3vw;">

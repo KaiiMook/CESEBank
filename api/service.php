@@ -26,56 +26,68 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			if($otp == $findblc['otp'])
 			{
 				$balancec = $findblc['balance'];
-				$balances = $findbls['balance'];
-				$newbalancec = $balancec - $Amount;
-				$newbalances = $balances + $Amount;
-		   		$newotp = rand(111111,999999);
-				$sqlc = "UPDATE accountinfo SET balance='$newbalancec', otp = '$newotp' WHERE idaccounwitpf='$cus_Account'";
-				$retval = mysql_query( $sqlc, $connect );
-				if (! $retval ) 
-				{
-					$data = array(
-					  "success"=> false,
-					  "error_message"=> "Could not enter data to account"
-					);
-					$str_data = json_encode($data);
-					print_r($str_data);
-		    	}
-				$sqls = "UPDATE accountinfo SET balance='$newbalances' WHERE idaccounwitpf='$shop_Account'";
-				$retval = mysql_query( $sqls, $connect );
-				if (! $retval ) 
-				{
+				if($balancec > $amountt){
+					$balances = $findbls['balance'];
+					$newbalancec = $balancec - $Amount;
+					$newbalances = $balances + $Amount;
+			   		$newotp = rand(111111,999999);
+					$sqlc = "UPDATE accountinfo SET balance='$newbalancec', otp = '$newotp' WHERE idaccounwitpf='$cus_Account'";
+					$retval = mysql_query( $sqlc, $connect );
+					if (! $retval ) 
+					{
+						$data = array(
+						  "success"=> false,
+						  "error_message"=> "Could not enter data to account"
+						);
+						$str_data = json_encode($data);
+						print_r($str_data);
+			    	}
+					$sqls = "UPDATE accountinfo SET balance='$newbalances' WHERE idaccounwitpf='$shop_Account'";
+					$retval = mysql_query( $sqls, $connect );
+					if (! $retval ) 
+					{
 
+						$data = array(
+						  "success"=> false,
+						  "error_message"=> "Could not enter data to account"
+						);
+						$str_data = json_encode($data);
+						print_r($str_data);
+			    	}
+			    	else
+			    	{	//add log
+			    		$sql = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('SP','','TF','".$Amount."','".$shop_Account."','".$cus_Account."','".$newbalancec."'),('SP','','DP','".$Amount."','".$shop_Account."','".$cus_Account."','".$newbalances."')";	
+			    	}
+			    	$retval = mysql_query( $sql, $connect );
+					if (! $retval ) 
+					{
+						$data = array(
+						  "success"=> false,
+						  "error_message"=> "Could not enter data to account"
+						);
+						$str_data = json_encode($data);
+						print_r($str_data);
+			    	}
+			    	else
+			    	{
+						$data = array(
+						  "success"=> true,
+						  "error_message"=> "Could not enter data to account"
+						);
+						$str_data = json_encode($data);
+						print_r($str_data);
+			    	}
+			    }
+			    else
+			    {
 					$data = array(
 					  "success"=> false,
-					  "error_message"=> "Could not enter data to account"
+					  "error_message"=> "customer money is not enough"
 					);
 					$str_data = json_encode($data);
 					print_r($str_data);
-		    	}
-		    	else
-		    	{	//add log
-		    		$sql = "INSERT INTO operationlog (bytype,bywho,operationtype,amount,destinationaccount,sourceaccount,crbalance) VALUES ('SP','','TF','".$Amount."','".$shop_Account."','".$cus_Account."','".$newbalancec."'),('SP','','DP','".$Amount."','".$cus_Account."','".$shop_Account."','".$newbalances."')";	
-		    	}
-		    	$retval = mysql_query( $sql, $connect );
-				if (! $retval ) 
-				{
-					$data = array(
-					  "success"=> false,
-					  "error_message"=> "Could not enter data to account"
-					);
-					$str_data = json_encode($data);
-					print_r($str_data);
-		    	}
-		    	else
-		    	{
-					$data = array(
-					  "success"=> true,
-					  "error_message"=> "Could not enter data to account"
-					);
-					$str_data = json_encode($data);
-					print_r($str_data);
-		    	}
+			    }
+
 		    }
 		    else
 		    {
