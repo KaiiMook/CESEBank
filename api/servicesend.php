@@ -15,7 +15,7 @@ $data = array(
   "otp"=> 958628
 );
 
-$url_send ="http://localhost/cesebank/api/service.php";
+$url_send ="http://161.246.70.75:8080/cesebank/api/service.php";
 // $str_data = http_build_query($data);
 $str_data = json_encode($data);
 

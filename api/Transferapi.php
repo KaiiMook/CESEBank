@@ -27,7 +27,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			if (! $retval ) 
 			{
 				$data = array(
-				  "status" => false ,
+				  "success" => false ,
 				  "error_message"=> "Could not enter data to account"
 				);
 				$str_data = json_encode($data);
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 			if (! $retval ) 
 			{
 				$data = array(
-				  "status" => false ,
+				  "success" => false ,
 				  "error_message"=> "Could not enter data to account"
 				);
 				$str_data = json_encode($data);
@@ -53,7 +53,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         	else
         	{
 				$data = array(
-				  "status" => true ,
+				  "success" => true ,
 				  "error_message"=> "Don't care"
 				);
 				$str_data = json_encode($data);
@@ -63,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
 		else
 		{
 			$data = array(
-				  "status" => false ,
+				  "success" => false ,
 				  "error_message"=> "no have account number"
 				);
 				$str_data = json_encode($data);
@@ -96,22 +96,23 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST')
         	}
         	else
         	{
-        		$data = array(
-				  "success" => false ,
-				  "error_message"=> "no have account number"
-				);
-				$str_data = json_encode($data);
-				print_r($str_data);
-		}		
-	}
-		else
-		{
-			$data = array(
+				$data = array(
 				  "success" => true ,
 				  "error_message"=> "don't care"
 				);
 				$str_data = json_encode($data);
 				print_r($str_data);
+        		
+			}		
+		}
+		else
+		{
+			$data = array(
+			  "success" => false ,
+			  "error_message"=> "no have account number"
+			);
+			$str_data = json_encode($data);
+			print_r($str_data);
 		}
 	}
 	else

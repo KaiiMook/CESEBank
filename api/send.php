@@ -9,13 +9,14 @@
 // Kong = 4R02vZ4c69
 $data = array(
   "from_Account"=> "1234567890",
-  "to_Account"=> "1327000003",
+  "to_Account"=> "8194381656",
   "Amount"=> 1000.00,
   //"key"=> "test if not kong&non bank"
-  "key" => "4R02vZ4c69"
+  //"key" => "4R02vZ4c69"
+  "key" => "kaiimook1111"
 );
 
-$url_send ="http://localhost/cesebank/api/Transferapi.php";
+$url_send ="http://bank.route.in.th:9999/api/transfer";
 // $str_data = http_build_query($data);
 $str_data = json_encode($data);
 
@@ -32,16 +33,18 @@ function sendPostData($url, $post){
 }
 
 $result = sendPostData($url_send, $str_data);
-
+echo $result;
 $res = json_decode($result);
-$success = $res->{'status'};
-$error_message = $res->{'error_message'};
+echo $res;
+// $success = $res->{'success'};
+// $error_message = $res->{'error_message'};
 
-if($success == true){
-  echo "OMG";
-}
-else
-{
-  echo($error_message);
-}
+// if($success == true){
+//   echo "OMG ";
+//   echo($error_message);
+// }
+// else
+// {
+//   echo($error_message);
+// }
 ?>

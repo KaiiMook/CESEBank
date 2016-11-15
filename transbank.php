@@ -120,7 +120,7 @@ if($bankk&&$accountt&&$amountt)
 		);
 		$url_send ="http://bank.route.in.th:9999/api/transfer";
 		// $str_data = http_build_query($data);
-		$str_data = $data;
+		$str_data = json_encode($data);
 		$result = sendPostData($url_send, $str_data);
 	  	$result = json_decode($result);
 	  	$success = $result->{'success'};
@@ -204,7 +204,7 @@ if($bankk&&$accountt&&$amountt)
 		$str_data = json_encode($data);
 		$result = sendPostData($url_send, $str_data);
 	  	$result = json_decode($result);
-	  	$success = $result->{'status'};
+	  	$success = $result->{'success'};
 		$error_message = $result->{'error_message'};
 
 		if($success == true ){
